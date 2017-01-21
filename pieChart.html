@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>饼图</title>
+    <script src="echarts.min.js"></script>
+</head>
+
+<body>
+<div id="main" style="width: 900px;height: 600px;"></div>
+<div id="meter" style="width: 900px;height: 600px;"></div>
+<script type="text/javascript">
+    //初始化echarts实例
+    var myChart=echarts.init(document.getElementById("main"));
+    var meterChart=echarts.init(document.getElementById("meter"));
+
+    //指定图表的配置项和数据
+    var option={
+        title:{
+            text:"某站点用户访问来源",
+            suntext:"纯属虚构",
+            x:'center'
+        },
+        tooltip:{
+            trigger:'item',
+            formatter:"{a} <br>{b} : {c} ({d}%)"
+        },
+        legend:{
+            orient:'vertical',
+            left:'left',
+            data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        }, 
+        series:[{
+            name:'访问来源',
+            type:'pie',
+            radius:'55%',
+            center:['50%','60%'],
+            data:[
+            {value:335,name:'直接访问'},
+            {value:310,anme:'邮件营销'},
+            {value:234,name:'联盟广告'},
+            {value:135,name:'视频广告'},
+            {value:1548,name:'搜索引擎'}
+            ]
+           
+        }]
+    };
+
+    var meter={
+        tooltip:{
+            trigger:'item',
+            formatter:"{a} <br>{b} : {c}% "
+        },
+        toolBox:{
+            feature:{
+                restore:{},
+                saveAsImage:{}
+            }
+        }, 
+        series:[{
+            name:'业务指标',
+            type:'gauge',
+            detail:{
+                formatter:'{value}%'
+            },
+            data:[
+            {value:32,name:'完成率'},
+            ]
+        }]
+    };
+
+    myChart.setOption(option);
+    meterChart.setOption(meter);
+    setInterval(function(){
+        meter.series[0].data[0].value=(Math.random()*100).toFixed(2)-0;
+        meterChart.setOption(meter);
+    },2000);
+</script>
+</body>
+</html>
